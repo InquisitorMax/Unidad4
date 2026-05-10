@@ -13,8 +13,8 @@ void Juego::Iniciar()
 
     CrearParedes();
 
-    // Apilar los tres rectángulos en el centro de la pantalla
-    float baseX = 460.0f;          // posición X de la pila
+    // los tres rectángulos en el centro de la pantalla
+    float baseX = 460.0f;          // posición X de la pila de los rectangulos
     float baseY = ALTO_PANTALLA - 60.0f; // nivel del suelo
 
     float ancho = 100.0f;
@@ -92,8 +92,8 @@ void Juego::Dibujar()
     DrawTexturePro(
         texCatapulta,
         { 0, 0, (float)texCatapulta.width, (float)texCatapulta.height },
-        { 120.0f, (float)ALTO_PANTALLA - 10.0f, 100.0f, 80.0f }, // posición y tamaño
-        { 50.0f, 80.0f },  // origen centrado en la base
+        { 120.0f, (float)ALTO_PANTALLA - 10.0f, 100.0f, 80.0f }, // posicion y tamaño
+        { 50.0f, 80.0f },  // centrado en la base
         0.0f,
         WHITE
     );
@@ -102,7 +102,7 @@ void Juego::Dibujar()
 
 void Juego::Reiniciar()
 {
-    // Reemplaza el mundo físico por uno nuevo (destruye todos los cuerpos)
+    // mundo físico
     mundo.~b2World();
     new (&mundo) b2World(b2Vec2(0.0f, 9.8f));
 

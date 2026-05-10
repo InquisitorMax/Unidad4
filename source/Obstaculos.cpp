@@ -28,7 +28,7 @@ void Obstaculos::Iniciar(b2World& mundo, float x, float y, float ancho, float al
 
 void Obstaculos::Dibujar() const
 {
-    // Como el cuerpo es dinámico, leemos posición y ángulo desde Box2D
+    //cuerpo es dinámico - posición y angulo de Box2D
     b2Vec2 pos = cuerpo->GetPosition();
     float angulo = cuerpo->GetAngle() * RAD2DEG;
 
