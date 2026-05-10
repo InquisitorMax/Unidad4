@@ -4,7 +4,7 @@ const float ESCALA = 30.0f;
 
 void Juego::Iniciar()
 {
-    InitWindow(ANCHO_PANTALLA, ALTO_PANTALLA, "MAVI II - Voltorb");
+    InitWindow(ANCHO_PANTALLA, ALTO_PANTALLA, "MAVI II - Unidad 2");
     InitAudioDevice();
     SetTargetFPS(60);
 
