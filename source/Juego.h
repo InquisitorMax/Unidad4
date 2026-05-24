@@ -1,9 +1,6 @@
 #pragma once
 #include "raylib.h"
 #include <box2d.h>
-#include <vector>
-#include "Proyectil.h"
-#include "Obstaculos.h"
 
 class Juego
 {
@@ -16,23 +13,36 @@ public:
     bool DebeTerminar() const;
 
 private:
-    void CrearParedes();
+    
+    void CrearEscenaFisica();
 
     static const int ANCHO_PANTALLA = 1000;
     static const int ALTO_PANTALLA = 600;
+    Music musicaTetris = {};
 
-    b2World   mundo{ b2Vec2(0.0f, 9.8f) };
-    Texture2D texCatapulta = {};
+    //Gravedad
+    b2World mundo{ b2Vec2(0.0f, 9.8f) };
+
+    
     Texture2D texVoltorb = {};
-    Proyectil voltorb;
-    std::vector<Obstaculos> obstaculos;
 
+    
     Color colorFondo = { 110, 100, 215, 255 };
     Color colorTextoPrincipal = RAYWHITE;
     Color colorTextoSecundario = DARKPURPLE;
     Color colorSuelo = {};
 
-    Sound gritoVoltorb = {};
-    Music musicaTetris = {};
-    bool sonidoReproducido = false;
+    
+    b2Body* cuerpoSuelo = nullptr;
+    b2Body* cuerpoPlataformaMovil = nullptr;
+    b2Body* cuerpoRotatorio = nullptr;
+    b2Body* cuerpoVoltorb = nullptr;
+
+    // Joints prismatico y de revolucion
+    b2PrismaticJoint* prismaticJoint = nullptr;
+    b2RevoluteJoint* revoluteJoint = nullptr;
+
+    // Parametros
+    float velocidadPlataforma = 3.0f;
+    float radioVoltorb = 30.0f;
 };

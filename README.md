@@ -1,29 +1,32 @@
-La Catapulta de Mavix
-Después de despertar en el mundo físico, Mavix comenzó a experimentar con distintas formas de mover los objetos dentro de la simulación.
+El Laboratorio Mecánico de Mavix
+Después de aprender a controlar el movimiento de los cuerpos dentro del mundo físico, Mavix descubrió algo todavía más interesante: mover objetos no alcanza para construir sistemas complejos.
 
-Pronto descubrió que podía aplicar fuerzas e impulsos para modificar el movimiento de los cuerpos dinámicos.
+Una caja puede caer.
+Un proyectil puede salir disparado.
+Un objeto puede recibir una fuerza o un impulso.
+Pero el mundo físico no está formado solo por objetos aislados. Puertas, puentes, plataformas, poleas, resortes y mecanismos articulados existen porque distintas piezas se encuentran conectadas entre sí.
 
-Sin embargo, controlar el movimiento directamente no siempre es suficiente. En muchos casos es necesario construir mecanismos físicos que permitan lanzar, empujar o golpear objetos dentro del entorno.
+Para seguir avanzando en su exploración, Mavix decidió construir su propio laboratorio mecánico, un espacio de pruebas donde experimentar con distintos tipos de joints para descubrir cómo se relacionan los cuerpos dentro de Box2D.
 
-Para continuar explorando el mundo físico, Mavix decidió construir su primer dispositivo experimental: una catapulta.
-
-El objetivo será utilizar los conceptos vistos en esta unidad para lanzar objetos dentro del mundo físico y observar cómo reaccionan al interactuar con el entorno.
+El objetivo será utilizar los conceptos trabajados en esta unidad para construir un mecanismo físico compuesto por múltiples cuerpos conectados mediante joints.
 
 Objetivo
-Construir un sistema físico que permita lanzar un objeto dentro del mundo utilizando un impulso inicial. El ejercicio permitirá experimentar con:
+Construir un sistema físico que utilice al menos dos tipos de joints trabajados en la unidad para formar una estructura o mecanismo funcional dentro del mundo físico.
 
-impulsos
+El ejercicio permitirá experimentar con:
 
-masa
+restricciones entre cuerpos
 
-gravedad
+movimiento articulado
 
-colisiones
+sistemas elásticos
 
-comportamiento físico de los cuerpos
+mecanismos lineales o rotacionales
+
+comportamiento físico de estructuras compuestas
 
 Situación inicial
-Se entrega un proyecto base que contiene (el mismo de la Unidad 1):
+Se entrega un proyecto base que contiene:
 
 un mundo físico (b2World)
 
@@ -33,51 +36,107 @@ integración con Raylib
 
 el bucle principal de simulación
 
-A partir de esta base, los estudiantes deberán construir el mecanismo de lanzamiento.
+A partir de esta base, los estudiantes deberán construir su mecanismo físico.
 
 Consigna
-Desarrollar un programa que permita lanzar un objeto utilizando un impulso inicial.
+Desarrollar un programa que represente un mecanismo físico compuesto, utilizando joints de Box2D para conectar varios cuerpos dentro del mundo de simulación.
 
 El sistema deberá incluir:
 
-1. Objeto a lanzar
-Crear un cuerpo dinámico que actuará como proyectil.
+1. Estructura compuesta
+Crear una escena con múltiples cuerpos físicos conectados entre sí.
 
-Este objeto puede ser:
+La construcción debe representar algún sistema mecánico reconocible, por ejemplo:
 
-una caja
+un péndulo
 
-un círculo
+un puente colgante
 
-El proyectil deberá aparecer cerca del suelo, listo para ser lanzado.
+una plataforma móvil
 
-2. Aplicación del impulso
-Cuando el usuario presione la tecla ESPACIO, el programa deberá aplicar un impulso al proyectil.
+una estructura rígida articulada
 
-El impulso deberá tener:
+un sistema con polea
 
-componente horizontal
+un mecanismo propio diseñado por el estudiante
 
-componente vertical
+2. Uso de joints
+El mecanismo deberá utilizar al menos dos tipos distintos de joints entre los siguientes:
 
-Este impulso provocará que el objeto salga disparado dentro del mundo físico.
+Distance Joint
 
-3. Observación del movimiento
-Una vez lanzado, el proyectil deberá:
+Revolute Joint
 
-moverse dentro del mundo
+Prismatic Joint
 
-caer por efecto de la gravedad
+Pulley Joint
 
-colisionar con el suelo
+Weld Joint
+
+Cada joint deberá cumplir una función clara dentro del sistema.
+
+3. Interacción con el entorno
+El mecanismo debe poder:
+
+moverse dentro del mundo físico
+
+reaccionar a la gravedad
+
+colisionar con otros cuerpos
+
+mostrar claramente el efecto de las restricciones definidas
+
+4. Visualización
+El programa deberá representar visualmente todos los cuerpos involucrados utilizando Raylib.
+
+Se recomienda además mostrar de alguna forma:
+
+los puntos de conexión
+
+la estructura general del mecanismo
+
+o los elementos principales del sistema
 
 Comportamiento esperado
 Al ejecutar el programa:
 
-el usuario puede lanzar un objeto
+debe observarse un sistema compuesto por varias piezas
 
-el objeto se mueve dentro del mundo físico
+los cuerpos deben permanecer conectados mediante joints
 
-el movimiento depende del impulso aplicado
+la estructura debe comportarse de manera coherente con el tipo de mecanismo construido
 
-el objeto colisiona con otros cuerpos
+el efecto de cada joint debe ser visible dentro de la simulación
+
+Opciones sugeridas
+Para quienes prefieran partir de una idea concreta, se proponen algunas posibilidades:
+
+Opción 1 — Puente colgante
+Construir un puente formado por múltiples segmentos unidos mediante joints.
+
+Opción 2 — Péndulo con estructura
+Construir un péndulo suspendido de una estructura rígida.
+
+Opción 3 — Plataforma mecánica
+Construir una plataforma que se desplace mediante un Prismatic Joint.
+
+Opción 4 — Sistema elástico
+Construir una estructura que utilice Distance Joint para simular resortes.
+
+Opción 5 — Mecanismo libre
+Diseñar un sistema original utilizando joints de Box2D.
+
+Entrega
+La entrega deberá incluir:
+
+código fuente del proyecto
+
+ejecutable
+
+breve descripción del mecanismo implementado
+
+identificación de los joints utilizados
+
+Frase final del práctico
+Mavix ya no observa cuerpos aislados dentro del mundo físico.
+Ahora comienza a construir mecanismos, a conectar piezas y a descubrir que el verdadero poder de la simulación aparece cuando los objetos dejan de estar solos.

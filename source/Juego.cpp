@@ -4,143 +4,254 @@ const float ESCALA = 30.0f;
 
 void Juego::Iniciar()
 {
-    InitWindow(ANCHO_PANTALLA, ALTO_PANTALLA, "MAVI II - Unidad 2");
+    InitWindow(ANCHO_PANTALLA, ALTO_PANTALLA, "Mavi II - Unidad 3");
     InitAudioDevice();
     SetTargetFPS(60);
-
+    musicaTetris = LoadMusicStream("Assets/musicaTetris.mp3");
+    PlayMusicStream(musicaTetris);
     colorSuelo = Fade(DARKGREEN, 0.7f);
     texVoltorb = LoadTexture("Assets/voltorb.png");
-    texCatapulta = LoadTexture("Assets/catapulta.png");
-    gritoVoltorb = LoadSound("Assets/gritoVoltorb.wav");    
-    musicaTetris = LoadMusicStream("Assets/musicaTetris.mp3");
 
-    PlaySound(gritoVoltorb);   // una sola vez 
-    sonidoReproducido = false;
-    CrearParedes();
-
-    // los tres rectángulos en el centro de la pantalla
-    float baseX = 460.0f;          // posición X de la pila de los rectangulos
-    float baseY = ALTO_PANTALLA - 60.0f; // nivel del suelo
-
-    float ancho = 100.0f;
-    float alto0 = 40.0f;
-    float alto1 = 50.0f;
-    float alto2 = 60.0f;
-
-    obstaculos.resize(3);
-    obstaculos[0].Iniciar(mundo, baseX, baseY, ancho, alto0, Fade(BROWN, 0.9f));
-    obstaculos[1].Iniciar(mundo, baseX, baseY - alto0, ancho, alto1, Fade(MAROON, 0.9f));
-    obstaculos[2].Iniciar(mundo, baseX, baseY - alto0 - alto1, 30.0f, 90.0f, Fade(DARKBROWN, 0.9f));
-
-    float radio = 30.0f;
-    voltorb.Iniciar(mundo, texVoltorb, 120.0f, ALTO_PANTALLA - 60.0f - radio);
+    CrearEscenaFisica();
 }
 
-void Juego::CrearParedes()
+void Juego::CrearEscenaFisica()
 {
-    // Suelo
+    velocidadPlataforma = 3.0f;
+
+    // Suelo y Paredes
+    
     b2BodyDef defSuelo;
     defSuelo.type = b2_staticBody;
-    defSuelo.position.Set((ANCHO_PANTALLA / 2.0f) / ESCALA, (ALTO_PANTALLA - 40.0f) / ESCALA);
-    b2Body* cuerpoSuelo = mundo.CreateBody(&defSuelo);
+    defSuelo.position.Set((ANCHO_PANTALLA / 2.0f) / ESCALA, (ALTO_PANTALLA - 30.0f) / ESCALA);
+    cuerpoSuelo = mundo.CreateBody(&defSuelo);
+
     b2PolygonShape formaSuelo;
-    formaSuelo.SetAsBox((ANCHO_PANTALLA / 2.0f) / ESCALA, 20.0f / ESCALA);
+    formaSuelo.SetAsBox((ANCHO_PANTALLA / 2.0f) / ESCALA, 30.0f / ESCALA);
     cuerpoSuelo->CreateFixture(&formaSuelo, 0.0f);
 
-    // Pared izquierda
-    b2BodyDef defIzquierda;
-    defIzquierda.type = b2_staticBody;
-    defIzquierda.position.Set(0.0f, (ALTO_PANTALLA / 2.0f) / ESCALA);
-    b2Body* cuerpoIzquierda = mundo.CreateBody(&defIzquierda);
-    b2PolygonShape formaIzquierda;
-    formaIzquierda.SetAsBox(10.0f / ESCALA, (ALTO_PANTALLA / 2.0f) / ESCALA);
-    cuerpoIzquierda->CreateFixture(&formaIzquierda, 0.0f);
+    b2BodyDef defIzg;
+    defIzg.type = b2_staticBody;
+    defIzg.position.Set(0.0f, (ALTO_PANTALLA / 2.0f) / ESCALA);
+    b2Body* cuerpoIzg = mundo.CreateBody(&defIzg);
+    b2PolygonShape formaIzg;
+    formaIzg.SetAsBox(10.0f / ESCALA, (ALTO_PANTALLA / 2.0f) / ESCALA);
+    cuerpoIzg->CreateFixture(&formaIzg, 0.0f);
 
-    // Pared derecha
-    b2BodyDef defDerecha;
-    defDerecha.type = b2_staticBody;
-    defDerecha.position.Set((float)ANCHO_PANTALLA / ESCALA, (ALTO_PANTALLA / 2.0f) / ESCALA);
-    b2Body* cuerpoDerecha = mundo.CreateBody(&defDerecha);
-    b2PolygonShape formaDerecha;
-    formaDerecha.SetAsBox(10.0f / ESCALA, (ALTO_PANTALLA / 2.0f) / ESCALA);
-    cuerpoDerecha->CreateFixture(&formaDerecha, 0.0f);
+    b2BodyDef defDer;
+    defDer.type = b2_staticBody;
+    defDer.position.Set((float)ANCHO_PANTALLA / ESCALA, (ALTO_PANTALLA / 2.0f) / ESCALA);
+    b2Body* cuerpoDer = mundo.CreateBody(&defDer);
+    b2PolygonShape formaDer;
+    formaDer.SetAsBox(10.0f / ESCALA, (ALTO_PANTALLA / 2.0f) / ESCALA);
+    cuerpoDer->CreateFixture(&formaDer, 0.0f);
+
+    
+    //Plataforma movil (uso Prismatic Joint)
+    
+    b2BodyDef defPlat;
+    defPlat.type = b2_dynamicBody;
+    defPlat.position.Set(250.0f / ESCALA, (ALTO_PANTALLA - 350.0f) / ESCALA);
+    cuerpoPlataformaMovil = mundo.CreateBody(&defPlat);
+
+    b2PolygonShape formaPlat;
+    formaPlat.SetAsBox(80.0f / ESCALA, 15.0f / ESCALA);
+
+    b2FixtureDef fixPlat;
+    fixPlat.shape = &formaPlat;
+    fixPlat.density = 1.0f;
+    fixPlat.friction = 1.0f;
+    cuerpoPlataformaMovil->CreateFixture(&fixPlat);
+
+    b2PrismaticJointDef prismaticDef;
+    b2Vec2 ejeMundo(1.0f, 0.0f);
+    prismaticDef.Initialize(cuerpoSuelo, cuerpoPlataformaMovil, cuerpoPlataformaMovil->GetPosition(), ejeMundo);
+    prismaticDef.enableLimit = true;
+    prismaticDef.lowerTranslation = -150.0f / ESCALA;
+    prismaticDef.upperTranslation = 400.0f / ESCALA;
+
+    prismaticJoint = (b2PrismaticJoint*)mundo.CreateJoint(&prismaticDef);
+
+
+    //Molinete (uso Revolute Joint)
+    
+    b2BodyDef defRotatorio;
+    defRotatorio.type = b2_dynamicBody;
+    
+    defRotatorio.position.Set(750.0f / ESCALA, (ALTO_PANTALLA - 150.0f) / ESCALA);
+    cuerpoRotatorio = mundo.CreateBody(&defRotatorio);
+
+    b2PolygonShape formaRotatorio;
+    formaRotatorio.SetAsBox(100.0f / ESCALA, 15.0f / ESCALA); // tamaño de 200x30
+
+    b2FixtureDef fixRotatorio;
+    fixRotatorio.shape = &formaRotatorio;
+    fixRotatorio.density = 2.0f;
+    cuerpoRotatorio->CreateFixture(&fixRotatorio);
+
+    //bisagra (Revolute Joint)
+    b2RevoluteJointDef revoluteDef;
+    //plataforma unida al suelo
+    revoluteDef.Initialize(cuerpoSuelo, cuerpoRotatorio, cuerpoRotatorio->GetPosition());
+
+    
+    revoluteDef.enableMotor = true;
+    revoluteDef.motorSpeed = 3.0f; // Velocidad de giro
+    revoluteDef.maxMotorTorque = 10000.0f; 
+
+    revoluteJoint = (b2RevoluteJoint*)mundo.CreateJoint(&revoluteDef);
+
+
+    //Cuerpo circular
+    
+    b2BodyDef defVoltorb;
+    defVoltorb.type = b2_dynamicBody;
+    defVoltorb.position.Set(250.0f / ESCALA, (ALTO_PANTALLA - 350.0f - 15.0f - radioVoltorb - 5.0f) / ESCALA);
+    cuerpoVoltorb = mundo.CreateBody(&defVoltorb);
+
+    b2CircleShape formaVoltorb;
+    formaVoltorb.m_radius = radioVoltorb / ESCALA;
+
+    b2FixtureDef fixVoltorb;
+    fixVoltorb.shape = &formaVoltorb;
+    fixVoltorb.density = 1.0f;
+    fixVoltorb.friction = 0.8f;
+    fixVoltorb.restitution = 0.4f;
+    cuerpoVoltorb->CreateFixture(&fixVoltorb);
 }
 
 void Juego::Actualizar()
 {
-    if (!sonidoReproducido && !IsSoundPlaying(gritoVoltorb))
-    {
-        PlayMusicStream(musicaTetris);
-        sonidoReproducido = true;
+    UpdateMusicStream(musicaTetris);
+
+    //Prismatic Joint
+    if (prismaticJoint->GetJointTranslation() >= prismaticJoint->GetUpperLimit()) {
+        velocidadPlataforma = -3.5f;
+    }
+    else if (prismaticJoint->GetJointTranslation() <= prismaticJoint->GetLowerLimit()) {
+        velocidadPlataforma = 3.5f;
+    }
+    cuerpoPlataformaMovil->SetLinearVelocity(b2Vec2(velocidadPlataforma, 0.0f));
+
+    //Movimiento de Voltorb
+    float fuerzaMovimiento = 15.0f;
+
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
+        cuerpoVoltorb->ApplyForceToCenter(b2Vec2(fuerzaMovimiento, 0.0f), true);
+    }
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
+        cuerpoVoltorb->ApplyForceToCenter(b2Vec2(-fuerzaMovimiento, 0.0f), true);
     }
 
-    if (sonidoReproducido)
-        UpdateMusicStream(musicaTetris);
+    //Salto Realista
+    
+    bool tocandoSuperficie = false;
 
-    if (IsKeyPressed(KEY_SPACE))
-        voltorb.AplicarImpulso();
+    
+    for (b2ContactEdge* contacto = cuerpoVoltorb->GetContactList(); contacto != nullptr; contacto = contacto->next) {
+        
+        if (contacto->contact->IsTouching()) {
+            tocandoSuperficie = true;
+            break;
+        }
+    }
+
+    // tecla ESPACIO para saltar
+    if (IsKeyPressed(KEY_SPACE) && tocandoSuperficie) {
+       
+        b2Vec2 impulso(0.0f, -20.0f);
+        cuerpoVoltorb->ApplyLinearImpulse(impulso, cuerpoVoltorb->GetWorldCenter(), true);
+    }
+    
 
     mundo.Step(1.0f / 60.0f, 8, 3);
-    
-if (IsKeyPressed(KEY_R))
-        Reiniciar();
-} 
 
+    if (IsKeyPressed(KEY_R)) {
+        Reiniciar();
+    }
+}
 
 void Juego::Dibujar()
 {
     BeginDrawing();
     ClearBackground(colorFondo);
 
-    DrawRectangle(0, ALTO_PANTALLA - 60, ANCHO_PANTALLA, 40, colorSuelo);
-
-    for (const auto& obs : obstaculos)
-        obs.Dibujar();
-
-    voltorb.Dibujar();
-
-    DrawRectangle(90, 70, 820, 90, Fade(BLACK, 0.18f));
+    // Suelo
+    DrawRectangle(0, ALTO_PANTALLA - 60, ANCHO_PANTALLA, 60, colorSuelo);
     
-    DrawText("Presiona R para reiniciar", 320, 125, 22, colorTextoSecundario);
-    DrawText("Presiona ESPACIO para lanzar a Voltorb", 300, 540, 20, RAYWHITE);
-    DrawTexturePro(
-        texCatapulta,
-        { 0, 0, (float)texCatapulta.width, (float)texCatapulta.height },
-        { 120.0f, (float)ALTO_PANTALLA - 10.0f, 100.0f, 80.0f }, // posicion y tamaño
-        { 50.0f, 80.0f },  // centrado en la base
-        0.0f,
-        WHITE
+    
+    //Linea punteada para ver el riel del prismatic joint
+    float inicioRielX = 250.0f - 150.0f;
+    float finRielX = 250.0f + 400.0f;
+
+    // el centro inicial en Y
+    float rielY = ALTO_PANTALLA - 350.0f;
+
+    // Dibujo los topes en los extremos
+    DrawRectangle(inicioRielX - 5, rielY - 10, 10, 20, DARKGRAY);
+    DrawRectangle(finRielX - 5, rielY - 10, 10, 20, DARKGRAY);
+
+    // dibujar los guiones de la linea
+    for (float x = inicioRielX; x < finRielX; x += 20.0f) {
+        // el DrawLineEx dibuja una linea con grosor
+        // los arametros son 'Punto Inicio', 'Punto Fin', 'Grosor' y 'Color'
+        DrawLineEx({ x, rielY }, { x + 10.0f, rielY }, 2.0f, LIGHTGRAY);
+    }
+    //dibujo la platafrma 
+    b2Vec2 posPlat = cuerpoPlataformaMovil->GetPosition();
+    DrawRectanglePro(
+        { posPlat.x * ESCALA, posPlat.y * ESCALA, 160.0f, 30.0f },
+        { 80.0f, 15.0f },
+        cuerpoPlataformaMovil->GetAngle() * RAD2DEG,
+        GRAY
     );
+
+    //Dibujo el molinete 
+    b2Vec2 posRot = cuerpoRotatorio->GetPosition();
+    DrawRectanglePro(
+        { posRot.x * ESCALA, posRot.y * ESCALA, 200.0f, 30.0f },
+        { 100.0f, 15.0f },
+        cuerpoRotatorio->GetAngle() * RAD2DEG,
+        ORANGE
+    );
+    //eje de la bisagra
+    DrawCircle(posRot.x * ESCALA, posRot.y * ESCALA, 6.0f, BLACK);
+
+    //Voltorb
+    b2Vec2 posV = cuerpoVoltorb->GetPosition();
+    float angV = cuerpoVoltorb->GetAngle() * RAD2DEG;
+
+    Rectangle src = { 0.0f, 0.0f, (float)texVoltorb.width, (float)texVoltorb.height };
+    Rectangle dest = { posV.x * ESCALA, posV.y * ESCALA, radioVoltorb * 2.0f, radioVoltorb * 2.0f };
+    Vector2 centroVoltorb = { radioVoltorb, radioVoltorb };
+
+    DrawTexturePro(texVoltorb, src, dest, centroVoltorb, angV, WHITE);
+
+    
+    DrawRectangle(25, 20, 950, 85, Fade(BLACK, 0.35f));
+    DrawText("ENTREGA GUIA UNIDAD 3", 60, 30, 20, GOLD);
+    DrawText("USO 2 JOINTS: Prismatic Joint (Plataforma Movil) Y Revolute Joint (Molinete)", 60, 55, 15, RAYWHITE);
+    DrawText("Controles: A/D o Flechas = Moverse | ESPACIO = Saltar | R = Reiniciar", 60, 75, 14, LIGHTGRAY);
+
     EndDrawing();
 }
 
 void Juego::Reiniciar()
 {
-    // mundo físico
-    mundo.~b2World();
-    new (&mundo) b2World(b2Vec2(0.0f, 9.8f));
+    b2Body* cuerpoActual = mundo.GetBodyList();
 
-    obstaculos.clear();
-    CrearParedes();
+    while (cuerpoActual != nullptr) {
+        b2Body* cuerpoABorrar = cuerpoActual;
+        cuerpoActual = cuerpoActual->GetNext();
+        mundo.DestroyBody(cuerpoABorrar);
+    }
 
-    float alto0 = 40.0f, alto1 = 50.0f;
-    float baseX = 460.0f;
-    float baseY = ALTO_PANTALLA - 60.0f;
-
-    obstaculos.resize(3);
-    obstaculos[0].Iniciar(mundo, baseX, baseY, 100.0f, alto0, Fade(BROWN, 0.9f));
-    obstaculos[1].Iniciar(mundo, baseX, baseY - alto0, 100.0f, alto1, Fade(MAROON, 0.9f));
-    obstaculos[2].Iniciar(mundo, baseX, baseY - alto0 - alto1, 30.0f, 90.0f, Fade(DARKBROWN, 0.9f));
-
-    float radio = 30.0f;
-    voltorb.Iniciar(mundo, texVoltorb, 120.0f, ALTO_PANTALLA - 60.0f - radio);
+    CrearEscenaFisica();
 }
 
 void Juego::Cerrar()
 {
     UnloadTexture(texVoltorb);
-    UnloadTexture(texCatapulta);
-    UnloadSound(gritoVoltorb);
     UnloadMusicStream(musicaTetris);
     CloseAudioDevice();
     CloseWindow();

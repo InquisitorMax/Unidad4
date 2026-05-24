@@ -21,21 +21,9 @@
     <ClCompile Include="Juego.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Proyectil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Obstaculos.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Juego.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Proyectil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Obstaculos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
