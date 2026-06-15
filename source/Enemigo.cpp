@@ -11,7 +11,7 @@ Enemigo::Enemigo(b2World* mundo, float x, float y, float escala, Texture2D* texN
     cuerpo = mundo->CreateBody(&def);
 
     b2CircleShape forma;
-    forma.m_radius = radio / escalaFisica;
+    forma.m_radius = radio * 1.3f / escalaFisica; // valor para que se perciba natural
 
     b2FixtureDef fix;
     fix.shape = &forma;

@@ -132,7 +132,7 @@ void Juego::VerificarColisiones()
     b2Vec2 posB = cuerpoBandera->GetPosition();
 
     float radioV_m = jugador->GetRadio() / ESCALA;
-    float radioG_m = enemigo->GetRadio() / ESCALA;
+    float radioG_m = enemigo->GetRadio() * 1.3f / ESCALA; //valor para que se perciba natural
     float radioB_m = anchoBandera / ESCALA;
 
     // distancia con el gastly
