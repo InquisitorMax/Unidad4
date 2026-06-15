@@ -1,6 +1,16 @@
 #pragma once
 #include "raylib.h"
 #include <box2d.h>
+#include "Jugador.h"
+#include "Enemigo.h"
+#include "Plataformas.h"
+
+enum class EstadoJuego
+{
+    JUGANDO,
+    VICTORIA,
+    DERROTA
+};
 
 class Juego
 {
@@ -13,36 +23,43 @@ public:
     bool DebeTerminar() const;
 
 private:
-    
     void CrearEscenaFisica();
+    void VerificarColisiones();
+    void DibujarEscena();
+    void DibujarHUD();
+    void DibujarPantalllaFinal();
 
     static const int ANCHO_PANTALLA = 1000;
     static const int ALTO_PANTALLA = 600;
-    Music musicaTetris = {};
+    static constexpr float ESCALA = 30.0f;
 
-    //Gravedad
+    Music musicaFondo = {};
+    Texture2D texVoltorb = {};
+    Texture2D texGastly = {};
+    Texture2D texGastlyInv = {};
+
+    Color colorFondo = { 15, 10, 30, 255 };
+    Color colorSuelo = { 40, 30, 60, 255 };
+    Color colorPlat = { 80, 60, 120, 255 };
+    Color colorMeta = { 255, 215, 0, 255 };
+
+    EstadoJuego estado = EstadoJuego::JUGANDO;
     b2World mundo{ b2Vec2(0.0f, 9.8f) };
 
-    
-    Texture2D texVoltorb = {};
-
-    
-    Color colorFondo = { 110, 100, 215, 255 };
-    Color colorTextoPrincipal = RAYWHITE;
-    Color colorTextoSecundario = DARKPURPLE;
-    Color colorSuelo = {};
-
-    
+    // los elementos del mapa 
     b2Body* cuerpoSuelo = nullptr;
-    b2Body* cuerpoPlataformaMovil = nullptr;
-    b2Body* cuerpoRotatorio = nullptr;
-    b2Body* cuerpoVoltorb = nullptr;
-
-    // Joints prismatico y de revolucion
-    b2PrismaticJoint* prismaticJoint = nullptr;
+    b2Body* cuerpoParedIzq = nullptr;
+    b2Body* cuerpoParedDer = nullptr;
+    b2Body* cuerpoMolinete = nullptr;
     b2RevoluteJoint* revoluteJoint = nullptr;
+    b2Body* cuerpoBandera = nullptr;
 
-    // Parametros
-    float velocidadPlataforma = 3.0f;
-    float radioVoltorb = 30.0f;
+    float anchoBandera = 20.0f;
+    float altoBandera = 50.0f;
+    float tiempoFinal = 0.0f;
+
+    // instancias de los objetos
+    Jugador* jugador = nullptr;
+    Enemigo* enemigo = nullptr;
+    Plataforma* plataforma = nullptr;
 };

@@ -1,142 +1,153 @@
-El Laboratorio Mecánico de Mavix
-Después de aprender a controlar el movimiento de los cuerpos dentro del mundo físico, Mavix descubrió algo todavía más interesante: mover objetos no alcanza para construir sistemas complejos.
+OBJETIVO DEL TRABAJO
 
-Una caja puede caer.
-Un proyectil puede salir disparado.
-Un objeto puede recibir una fuerza o un impulso.
-Pero el mundo físico no está formado solo por objetos aislados. Puertas, puentes, plataformas, poleas, resortes y mecanismos articulados existen porque distintas piezas se encuentran conectadas entre sí.
+Desarrollar un sistema físico interactivo utilizando Box2D y Raylib, donde múltiples cuerpos estén conectados mediante joints y respondan a la interacción del usuario.
 
-Para seguir avanzando en su exploración, Mavix decidió construir su propio laboratorio mecánico, un espacio de pruebas donde experimentar con distintos tipos de joints para descubrir cómo se relacionan los cuerpos dentro de Box2D.
+El sistema debe demostrar que comprendés:
 
-El objetivo será utilizar los conceptos trabajados en esta unidad para construir un mecanismo físico compuesto por múltiples cuerpos conectados mediante joints.
+⦁	cómo se construye un mundo físico
+⦁	cómo se controla el movimiento
+⦁	cómo se conectan objetos mediante restricciones
+⦁	En otras palabras: dejar de programar objetos aislados y comenzar a diseñar mecanismos.
 
-Objetivo
-Construir un sistema físico que utilice al menos dos tipos de joints trabajados en la unidad para formar una estructura o mecanismo funcional dentro del mundo físico.
+CONSIGNA GENERAL
 
-El ejercicio permitirá experimentar con:
+Deberás crear una simulación funcional que represente un mecanismo físico.
 
-restricciones entre cuerpos
+El sistema debe:
 
-movimiento articulado
+⦁	estar compuesto por múltiples cuerpos
+⦁	incluir conexiones físicas (joints)
+⦁	responder a una acción del usuario
+⦁	mostrar claramente el comportamiento del sistema
+⦁	OPCIONES DE DESARROLLO
 
-sistemas elásticos
+Elegí UNA de las siguientes propuestas:
 
-mecanismos lineales o rotacionales
+Opción A — Catapulta
 
-comportamiento físico de estructuras compuestas
+Construir un sistema que permita lanzar un objeto.
 
-Situación inicial
-Se entrega un proyecto base que contiene:
+Debe incluir:
 
-un mundo físico (b2World)
+brazo articulado
+sistema de tensión o impulso
+proyectil dinámico
+acción de disparo
+Opción B — Puente físico
 
-un suelo estático
+Construir una estructura suspendida.
 
-integración con Raylib
+Debe incluir:
 
-el bucle principal de simulación
+múltiples segmentos conectados
+estabilidad física
+interacción con otro objeto (ej: una caja que lo cruza)
+Opción C — Plataforma / Ascensor
 
-A partir de esta base, los estudiantes deberán construir su mecanismo físico.
+Construir un sistema de movimiento controlado.
 
-Consigna
-Desarrollar un programa que represente un mecanismo físico compuesto, utilizando joints de Box2D para conectar varios cuerpos dentro del mundo de simulación.
+Debe incluir:
 
-El sistema deberá incluir:
+desplazamiento en un eje
+límites de movimiento
+activación mediante input
+Opción D — Sistema libre (nivel avanzado)
 
-1. Estructura compuesta
-Crear una escena con múltiples cuerpos físicos conectados entre sí.
+Podés diseñar tu propio mecanismo.
 
-La construcción debe representar algún sistema mecánico reconocible, por ejemplo:
+Ejemplos:
 
-un péndulo
+grúa
+sistema de poleas
+máquina física
+trampa mecánica
+REQUISITOS TÉCNICOS (OBLIGATORIOS)
 
-un puente colgante
+Tu sistema debe cumplir con: Mundo físico correcto
 
-una plataforma móvil
+uso de gravedad
+actualización mediante Step()
+Tipos de cuerpos
 
-una estructura rígida articulada
+al menos 1 cuerpo estático
+al menos 2 cuerpos dinámicos
+Uso de joints
 
-un sistema con polea
+mínimo 2 tipos distintos
+Interacción del usuario
 
-un mecanismo propio diseñado por el estudiante
+Debe existir al menos una acción:
 
-2. Uso de joints
-El mecanismo deberá utilizar al menos dos tipos distintos de joints entre los siguientes:
+teclado o mouse
+Ejemplos:
 
-Distance Joint
+disparar
+activar movimiento
+aplicar fuerza
+Visualización clara
 
-Revolute Joint
+el sistema debe poder entenderse
+se deben visualizar conexiones o relaciones
+RESTRICCIONES
 
-Prismatic Joint
+No se aceptarán trabajos que:
 
-Pulley Joint
+no tengan interacción
+usen joints sin propósito
+sean copias del ejemplo visto en clase o de un compañero de la clase
+no representen un sistema real
+funcionen “de casualidad” sin lógica
+BONUS (OPCIONAL)
 
-Weld Joint
+Podés sumar:
 
-Cada joint deberá cumplir una función clara dentro del sistema.
+lógica de comportamiento (condiciones)
+múltiples mecanismos combinados
+interfaz simple (texto en pantalla)
+reinicio de escena
 
-3. Interacción con el entorno
-El mecanismo debe poder:
 
-moverse dentro del mundo físico
 
-reaccionar a la gravedad
 
-colisionar con otros cuerpos
 
-mostrar claramente el efecto de las restricciones definidas
 
-4. Visualización
-El programa deberá representar visualmente todos los cuerpos involucrados utilizando Raylib.
 
-Se recomienda además mostrar de alguna forma:
 
-los puntos de conexión
 
-la estructura general del mecanismo
 
-o los elementos principales del sistema
+Acá tenés el desglose detallado de cómo encaja tu código con cada punto de la entrega:
 
-Comportamiento esperado
-Al ejecutar el programa:
+1. Requisitos Técnicos Obligatorios (Cumplidos)
+Mundo físico correcto: * Cumple: Inicializás la gravedad en b2World mundo{ b2Vec2(0.0f, 9.8f) }; y hacés el avance temporal con mundo.Step(1.0f / 60.0f, 8, 3); en cada frame dentro de Juego::Actualizar().
 
-debe observarse un sistema compuesto por varias piezas
+Tipos de cuerpos: * Cumple con creces: Tenés cuerpos estáticos (cuerpoSuelo, cuerpoParedIzq, cuerpoParedDer, cuerpoBandera) y múltiples cuerpos dinámicos independientes controlados por sus propias clases (Jugador, Enemigo, Plataforma y el obstáculo cuerpoMolinete).
 
-los cuerpos deben permanecer conectados mediante joints
+Uso de Joints (Mínimo 2 tipos distintos): * Cumple perfectamente: 1.  Prismatic Joint: Usado en la clase Plataforma para el movimiento vertical (eje Y) acotado.
+2.  Revolute Joint: Usado en Juego para hacer girar el obstáculo del molinete con un motor físico.
 
-la estructura debe comportarse de manera coherente con el tipo de mecanismo construido
+Nota de diseño: Ambos joints tienen sus motores activados (enableMotor = true), lo cual demuestra que no están "de adorno" ni puestos sin propósito.
 
-el efecto de cada joint debe ser visible dentro de la simulación
+Interacción del usuario: * Cumple: El jugador interactúa directamente mediante el teclado: movimiento lateral con A / D (o flechas) aplicando fuerzas físicas y salto con la barra espaciadora (KEY_SPACE) mediante un impulso lineal.
 
-Opciones sugeridas
-Para quienes prefieran partir de una idea concreta, se proponen algunas posibilidades:
+Visualización clara: * Cumple: No solo dibujás las texturas de los personajes principales (Voltorb y Gastly), sino que el código renderiza explícitamente el brazo del molinete girando y dibuja una línea punteada gris decorativa con topes oscuros en pantalla para representar visualmente el riel guía del recorrido del Prismatic Joint. Esto hace que el mecanismo se entienda a simple vista.
 
-Opción 1 — Puente colgante
-Construir un puente formado por múltiples segmentos unidos mediante joints.
+2. Evaluación de las Restricciones (Aprobado)
+Tu entrega se encuentra a salvo de las restricciones de rechazo por los siguientes motivos:
 
-Opción 2 — Péndulo con estructura
-Construir un péndulo suspendido de una estructura rígida.
+No funciona "de casualidad": Al refactorizar el juego en clases (Jugador, Enemigo, Plataforma), demostrás un diseño de software sólido y el uso de la tolerancia en la traslación del joint prismático asegura que el ciclo de subida y bajada no se rompa por imprecisiones numéricas.
 
-Opción 3 — Plataforma mecánica
-Construir una plataforma que se desplace mediante un Prismatic Joint.
+Uso de joints con propósito: El joint prismático simula un ascensor/obstáculo móvil real sobre el cual el jugador se puede subir, y el revolute joint actúa como un peligro giratorio clásico de juegos de plataformas.
 
-Opción 4 — Sistema elástico
-Construir una estructura que utilice Distance Joint para simular resortes.
+3. Puntos BONUS que sumás automáticamente (Opcional)
+El trabajo incluye prácticamente todos los extras sugeridos en la consigna:
 
-Opción 5 — Mecanismo libre
-Diseñar un sistema original utilizando joints de Box2D.
+Lógica de comportamiento (condiciones): Implementaste un bucle de patrullaje inteligente para Gastly que detecta los límites laterales de la pantalla y cambia su velocidad (velGastly) y la dirección de su sprite automáticamente al rebotar.
 
-Entrega
-La entrega deberá incluir:
+Múltiples mecanismos combinados: Convivieron de manera excelente el salto con físicas de Voltorb, el ascensor automático y el molinete como obstáculo.
 
-código fuente del proyecto
+Interfaz simple: El método DibujarHUD() y DibujarPantalllaFinal() muestran textos claros en pantalla indicando los controles, el título del juego, qué joints se usaron (ideal para el docente que corrige) y pantallas de Victoria/Derrota.
 
-ejecutable
+Reinicio de escena: Tu función Reiniciar() destruye de manera limpia todos los cuerpos del mundo de Box2D con mundo.DestroyBody(aEliminar) al presionar la tecla R, reseteando el juego sin fugas de memoria (memory leaks).
 
-breve descripción del mecanismo implementado
-
-identificación de los joints utilizados
-
-Frase final del práctico
-Mavix ya no observa cuerpos aislados dentro del mundo físico.
-Ahora comienza a construir mecanismos, a conectar piezas y a descubrir que el verdadero poder de la simulación aparece cuando los objetos dejan de estar solos.
+💡 Un único consejo para la presentación:
+El código está impecable y cumple sobradamente con todo lo que te piden. Cuando hagas la entrega escrita o la defensa del código, acordate de hacer hincapié en cómo solucionaste el problema de que la plataforma no se trabe con el suelo utilizando los filtros de colisión (fix.filter.groupIndex = -1;). Ese es un excelente argumento técnico que demuestra que realmente entendés cómo Box2D calcula las restricciones y fuerzas entre cuerpos rígidos.

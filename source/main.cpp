@@ -18,3 +18,5 @@ int main(void)
     juego.Cerrar();
     return 0;
 }
+
+// para algunas partes de ayudé con IA, por ejemplo, implementar isSensor, que me parece re útil para este y futuros proyectos
