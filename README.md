@@ -1,19 +1,3 @@
-TRABAJO PRÁCTICO INTEGRADOR MAVII:
-
-
-
-
-https://github.com/InquisitorMax/Entrega-Guia-Unidad-2.git
-
-
-
-
-
-(es el link correcto, a pesar del nombre del repositorio)
-
-
----------------------
-
 OBJETIVO DEL TRABAJO
 
 Desarrollar un sistema físico interactivo utilizando Box2D y Raylib, donde múltiples cuerpos estén conectados mediante joints y respondan a la interacción del usuario.

@@ -59,6 +59,6 @@ void Enemigo::Dibujar()
 
     Rectangle src = { 0, 0, (float)texG.width, (float)texG.height };
     Rectangle dest = { px, py, diam, diam };
-    Vector2 orig = { radio, radio };
+    Vector2 orig = { diam / 2.0f, diam / 2.0f }; // ajusto valores para mejorar la colision
     DrawTexturePro(texG, src, dest, orig, 0.0f, WHITE);
 }
