@@ -238,7 +238,7 @@ void Juego::ProcesarContactoJugador(TipoEntidad otroTipo)
 
         
         if (molineteActivo) {
-            revoluteJoint->SetMotorSpeed(0.5f);  // Vuelve a girar
+            revoluteJoint->SetMotorSpeed(1.9f);  // Vuelve a girar
         }
         else {
             revoluteJoint->SetMotorSpeed(0.0f);  // Se detiene en seco
