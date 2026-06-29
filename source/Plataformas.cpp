@@ -1,7 +1,12 @@
 #include "Plataformas.h"
 
+<<<<<<< HEAD
 Plataforma::Plataforma(b2World* mundo, float x, float y, float escala, Texture2D* textura)
     : escalaFisica(escala), velPlataforma(2.5f), texPlat(textura)
+=======
+Plataforma::Plataforma(b2World* mundo, float x, float y, float escala, Color color)
+    : escalaFisica(escala), velPlataforma(2.5f), colorPlat(color)
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
 {
     float platX = x / escalaFisica;
     float platY = y / escalaFisica;
@@ -74,6 +79,7 @@ void Plataforma::Dibujar()
     // de la plataforma
     b2Vec2 pos = cuerpoPlat->GetPosition();
     float ang = cuerpoPlat->GetAngle() * (180.0f / PI);
+<<<<<<< HEAD
 
     // dimensiones visuales (ancho de 160, alto de 24)
     float anchoVisual = 160.0f;
@@ -90,4 +96,12 @@ void Plataforma::Dibujar()
 
     // Dibujo usando la textura
     DrawTexturePro(*texPlat, sourceRec, destRec, origen, ang, WHITE);
+=======
+    DrawRectanglePro(
+        { pos.x * escalaFisica, pos.y * escalaFisica, 160.0f, 24.0f },
+        { 80.0f, 12.0f },
+        ang,
+        colorPlat
+    );
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
 }

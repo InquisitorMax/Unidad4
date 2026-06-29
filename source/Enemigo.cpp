@@ -1,8 +1,13 @@
 #include "Enemigo.h"
 #include <cmath>
 
+<<<<<<< HEAD
 Enemigo::Enemigo(b2World* mundo, float x, float y, float escala, Texture2D* texNormal, Texture2D* texInvertido, int anchoPantalla, float velocidad)
     : texGastly(texNormal), texGastlyInv(texInvertido), radio(28.0f), escalaFisica(escala), velGastly(velocidad), miraDerecha(false), limiteAnchoPantalla(anchoPantalla)
+=======
+Enemigo::Enemigo(b2World* mundo, float x, float y, float escala, Texture2D* texNormal, Texture2D* texInvertido, int anchoPantalla)
+    : texGastly(texNormal), texGastlyInv(texInvertido), radio(28.0f), escalaFisica(escala), velGastly(5.0f), miraDerecha(false), limiteAnchoPantalla(anchoPantalla)
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
 {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -11,7 +16,11 @@ Enemigo::Enemigo(b2World* mundo, float x, float y, float escala, Texture2D* texN
     cuerpo = mundo->CreateBody(&def);
 
     b2CircleShape forma;
+<<<<<<< HEAD
     forma.m_radius = radio / escalaFisica;
+=======
+    forma.m_radius = radio * 1.3f / escalaFisica; // valor para que se perciba natural
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
 
     b2FixtureDef fix;
     fix.shape = &forma;
@@ -59,6 +68,10 @@ void Enemigo::Dibujar()
 
     Rectangle src = { 0, 0, (float)texG.width, (float)texG.height };
     Rectangle dest = { px, py, diam, diam };
+<<<<<<< HEAD
     Vector2 orig = { radio, radio };
+=======
+    Vector2 orig = { diam / 2.0f, diam / 2.0f }; // ajusto valores para mejorar la colision
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
     DrawTexturePro(texG, src, dest, orig, 0.0f, WHITE);
 }

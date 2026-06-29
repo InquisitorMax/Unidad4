@@ -5,6 +5,7 @@
 #include "Enemigo.h"
 #include "Plataformas.h"
 
+<<<<<<< HEAD
 enum class TipoEntidad {
     JUGADOR = 1, //es para que contactlistener no me lo tome como 0
     ENEMIGO,
@@ -17,10 +18,15 @@ enum class TipoEntidad {
 enum class EstadoJuego
 {
     INICIO,
+=======
+enum class EstadoJuego
+{
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
     JUGANDO,
     VICTORIA,
     DERROTA
 };
+<<<<<<< HEAD
 
 
 class Juego;
@@ -35,6 +41,8 @@ public:
 
     void BeginContact(b2Contact* contact) override;
 };
+=======
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
 
 class Juego
 {
@@ -48,9 +56,14 @@ public:
     bool DebeTerminar() const;
 
 private:
+<<<<<<< HEAD
     MiContactListener* contactListener = nullptr;
     void CrearEscenaFisica();
     //void VerificarColisiones(); esto ya no lo necesito
+=======
+    void CrearEscenaFisica();
+    void VerificarColisiones();
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
     void DibujarEscena();
     void DibujarHUD();
     void DibujarPantalllaFinal();
@@ -63,8 +76,11 @@ private:
     Texture2D texVoltorb = {};
     Texture2D texGastly = {};
     Texture2D texGastlyInv = {};
+<<<<<<< HEAD
     Texture2D texFondo = {};
     Texture2D texPlataforma = {};
+=======
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
 
     Color colorFondo = { 15, 10, 30, 255 };
     Color colorSuelo = { 40, 30, 60, 255 };
@@ -89,6 +105,7 @@ private:
     // instancias de los objetos
     Jugador* jugador = nullptr;
     Enemigo* enemigo = nullptr;
+<<<<<<< HEAD
     Enemigo* enemigoMitad = nullptr; // sumo otro enemigo
     Plataforma* plataforma = nullptr;
     
@@ -98,4 +115,7 @@ private:
 
     //pantalla de inicio
     bool esPrimeraVez = true;
+=======
+    Plataforma* plataforma = nullptr;
+>>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
 };
