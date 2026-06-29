@@ -5,11 +5,7 @@
 class Enemigo
 {
 public:
-<<<<<<< HEAD
     Enemigo(b2World* mundo, float x, float y, float escala, Texture2D* texNormal, Texture2D* texInvertido, int anchoPantalla, float velocidad = 3.5f);
-=======
-    Enemigo(b2World* mundo, float x, float y, float escala, Texture2D* texNormal, Texture2D* texInvertido, int anchoPantalla);
->>>>>>> cedc80cc3211d13d464c8d89e62b0110f4ba23ca
     ~Enemigo() = default;
 
     void Actualizar();
