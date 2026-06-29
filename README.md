@@ -1,142 +1,111 @@
-El Laboratorio Mecánico de Mavix
-Después de aprender a controlar el movimiento de los cuerpos dentro del mundo físico, Mavix descubrió algo todavía más interesante: mover objetos no alcanza para construir sistemas complejos.
-
-Una caja puede caer.
-Un proyectil puede salir disparado.
-Un objeto puede recibir una fuerza o un impulso.
-Pero el mundo físico no está formado solo por objetos aislados. Puertas, puentes, plataformas, poleas, resortes y mecanismos articulados existen porque distintas piezas se encuentran conectadas entre sí.
-
-Para seguir avanzando en su exploración, Mavix decidió construir su propio laboratorio mecánico, un espacio de pruebas donde experimentar con distintos tipos de joints para descubrir cómo se relacionan los cuerpos dentro de Box2D.
-
-El objetivo será utilizar los conceptos trabajados en esta unidad para construir un mecanismo físico compuesto por múltiples cuerpos conectados mediante joints.
-
-Objetivo
-Construir un sistema físico que utilice al menos dos tipos de joints trabajados en la unidad para formar una estructura o mecanismo funcional dentro del mundo físico.
-
-El ejercicio permitirá experimentar con:
-
-restricciones entre cuerpos
-
-movimiento articulado
-
-sistemas elásticos
-
-mecanismos lineales o rotacionales
-
-comportamiento físico de estructuras compuestas
-
-Situación inicial
-Se entrega un proyecto base que contiene:
-
-un mundo físico (b2World)
-
-un suelo estático
-
-integración con Raylib
-
-el bucle principal de simulación
-
-A partir de esta base, los estudiantes deberán construir su mecanismo físico.
-
 Consigna
-Desarrollar un programa que represente un mecanismo físico compuesto, utilizando joints de Box2D para conectar varios cuerpos dentro del mundo de simulación.
+Desarrollar un programa donde una interacción dentro del mundo físico genere una respuesta lógica visible en el juego.
 
 El sistema deberá incluir:
 
-1. Estructura compuesta
-Crear una escena con múltiples cuerpos físicos conectados entre sí.
+1. Objeto interactivo
+Crear al menos un cuerpo dinámico que actúe como elemento principal de la interacción. Por ejemplo:
 
-La construcción debe representar algún sistema mecánico reconocible, por ejemplo:
+• un proyectil
+• un objeto en movimiento
+• un cuerpo controlado por el usuario
 
-un péndulo
+Este objeto deberá poder moverse dentro del mundo físico.
 
-un puente colgante
+2. Elemento de detección
+Implementar al menos uno de los siguientes:
 
-una plataforma móvil
+• un objetivo físico (colisión normal)
+• una zona sensor (isSensor = true)
 
-una estructura rígida articulada
+Este elemento deberá permitir detectar cuándo ocurre una interacción relevante.
 
-un sistema con polea
+3. Detección del evento
+Implementar un b2ContactListener que permita:
 
-un mecanismo propio diseñado por el estudiante
+• detectar el inicio del contacto (BeginContact)
+• identificar los cuerpos involucrados
+• determinar si la interacción corresponde al evento esperado
 
-2. Uso de joints
-El mecanismo deberá utilizar al menos dos tipos distintos de joints entre los siguientes:
+4. Identificación de cuerpos
+Utilizar userData (u otra estrategia equivalente) para:
 
-Distance Joint
+• distinguir los distintos tipos de objetos
+• reconocer cuándo ocurre la interacción correcta
 
-Revolute Joint
+5. Reacción del sistema
+Cuando ocurra el evento, el sistema deberá generar una respuesta visible. Por ejemplo:
 
-Prismatic Joint
+• mostrar un mensaje en pantalla
+• cambiar el estado del juego
+• reiniciar la escena
+• activar/desactivar un mecanismo
+• modificar el comportamiento de un objeto
 
-Pulley Joint
+6. Uso de estados (recomendado)
+Organizar el comportamiento del sistema utilizando estados.
 
-Weld Joint
+Por ejemplo:
 
-Cada joint deberá cumplir una función clara dentro del sistema.
+• Waiting
+• Running
+• EventDetected
+• Finished
 
-3. Interacción con el entorno
-El mecanismo debe poder:
+Esto permitirá mantener ordenada la lógica del programa.
 
-moverse dentro del mundo físico
+7. Visualización
+El programa deberá mostrar claramente:
 
-reaccionar a la gravedad
+• los cuerpos involucrados
+• la interacción que ocurre
+• la respuesta del sistema
 
-colisionar con otros cuerpos
+Se recomienda incluir:
 
-mostrar claramente el efecto de las restricciones definidas
-
-4. Visualización
-El programa deberá representar visualmente todos los cuerpos involucrados utilizando Raylib.
-
-Se recomienda además mostrar de alguna forma:
-
-los puntos de conexión
-
-la estructura general del mecanismo
-
-o los elementos principales del sistema
+• mensajes en pantalla
+• indicadores visuales
+• cambios de estado visibles
 
 Comportamiento esperado
 Al ejecutar el programa:
 
-debe observarse un sistema compuesto por varias piezas
-
-los cuerpos deben permanecer conectados mediante joints
-
-la estructura debe comportarse de manera coherente con el tipo de mecanismo construido
-
-el efecto de cada joint debe ser visible dentro de la simulación
+• debe existir al menos una interacción detectable
+• el sistema debe reconocer correctamente el evento
+• la lógica del juego debe reaccionar ante esa interacción
+• el resultado debe ser visible para el usuario
 
 Opciones sugeridas
-Para quienes prefieran partir de una idea concreta, se proponen algunas posibilidades:
+Para quienes prefieran partir de una idea concreta:
 
-Opción 1 — Puente colgante
-Construir un puente formado por múltiples segmentos unidos mediante joints.
+Opción 1 — Tiro al objetivo
+Un proyectil impacta contra un objetivo. Al impactar:
 
-Opción 2 — Péndulo con estructura
-Construir un péndulo suspendido de una estructura rígida.
+• se muestra un mensaje
+• se cambia el estado
 
-Opción 3 — Plataforma mecánica
-Construir una plataforma que se desplace mediante un Prismatic Joint.
+Opción 2 — Zona de activación
+Un objeto entra en una región sensor.
 
-Opción 4 — Sistema elástico
-Construir una estructura que utilice Distance Joint para simular resortes.
+Al ingresar: se activa un evento
+Al salir: se desactiva
 
-Opción 5 — Mecanismo libre
-Diseñar un sistema original utilizando joints de Box2D.
+Opción 3 — Sistema de checkpoint
+Un objeto atraviesa distintas zonas. Cada zona:
 
-Entrega
-La entrega deberá incluir:
+• registra un estado
+• modifica el comportamiento
 
-código fuente del proyecto
+Opción 4 — Activador de mecanismo
+Un contacto activa un sistema físico. Ejemplo:
 
-ejecutable
+• una plataforma comienza a moverse
+• un objeto cambia su comportamiento
 
-breve descripción del mecanismo implementado
+Opción 5 — Sistema libre
+Diseñar un sistema original donde:
 
-identificación de los joints utilizados
+• la física genere eventos
+• el juego los interprete
+• y produzca una respuesta
 
-Frase final del práctico
-Mavix ya no observa cuerpos aislados dentro del mundo físico.
-Ahora comienza a construir mecanismos, a conectar piezas y a descubrir que el verdadero poder de la simulación aparece cuando los objetos dejan de estar solos.
