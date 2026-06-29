@@ -121,7 +121,7 @@ void Juego::CrearEscenaFisica()
         b2RevoluteJointDef rjd;
         rjd.Initialize(cuerpoSuelo, cuerpoMolinete, cuerpoMolinete->GetPosition());
         rjd.enableMotor = true;
-        rjd.motorSpeed = 0.5f; // giro
+        rjd.motorSpeed = 1.9f; // giro
         rjd.maxMotorTorque = 50000.0f;
         revoluteJoint = (b2RevoluteJoint*)mundo.CreateJoint(&rjd);
     }
@@ -130,7 +130,7 @@ void Juego::CrearEscenaFisica()
     float metaX = 900.0f; 
     float metaY = 220.0f; 
 
-    // pequeÒa plataforma fija (ancho de 80, alto de 12)
+    // peque√±a plataforma fija (ancho de 80, alto de 12)
     {
         b2BodyDef defPlatFija;
         defPlatFija.type = b2_staticBody;
@@ -138,7 +138,7 @@ void Juego::CrearEscenaFisica()
         b2Body* cuerpoPlatFija = mundo.CreateBody(&defPlatFija);
 
         b2PolygonShape formaPlatFija;
-        // Mitad de tamaÒo que la mÛvil
+        // Mitad de tama√±o que la m√≥vil
         formaPlatFija.SetAsBox(40.0f / ESCALA, 6.0f / ESCALA);
 
         b2FixtureDef fixPlatFija;
@@ -151,12 +151,12 @@ void Juego::CrearEscenaFisica()
     {
         b2BodyDef defVoltorbMeta;
         defVoltorbMeta.type = b2_staticBody;
-        // Lo posicionos un poquito m·s arriba de la plataforma fija 
+        // Lo posicionos un poquito m√°s arriba de la plataforma fija 
         defVoltorbMeta.position.Set(metaX / ESCALA, (metaY - 20.0f) / ESCALA);
         cuerpoBandera = mundo.CreateBody(&defVoltorbMeta); 
 
         b2CircleShape formaVoltorbMeta;
-        formaVoltorbMeta.m_radius = 20.0f / ESCALA; // un poquito m·s chico
+        formaVoltorbMeta.m_radius = 20.0f / ESCALA; // un poquito m√°s chico
 
         b2FixtureDef fixVoltorbMeta;
         fixVoltorbMeta.shape = &formaVoltorbMeta;
@@ -171,11 +171,11 @@ void Juego::CrearEscenaFisica()
     {
         b2BodyDef defBoton;
         defBoton.type = b2_staticBody;
-        defBoton.position.Set(450.0f / ESCALA, (ALTO_PANTALLA - 45.0f) / ESCALA); // UbicaciÛn en el suelo
+        defBoton.position.Set(450.0f / ESCALA, (ALTO_PANTALLA - 45.0f) / ESCALA); // Ubicaci√≥n en el suelo
         cuerpoBoton = mundo.CreateBody(&defBoton);
 
         b2PolygonShape formaBoton;
-        formaBoton.SetAsBox(25.0f / ESCALA, 5.0f / ESCALA); // botÛn chato
+        formaBoton.SetAsBox(25.0f / ESCALA, 5.0f / ESCALA); // bot√≥n chato
 
         b2FixtureDef fixBoton;
         fixBoton.shape = &formaBoton;
@@ -256,13 +256,13 @@ void Juego::Dibujar()
         { 0.0f, 0.0f }, 0.0f, WHITE);    DibujarEscena();
     DibujarHUD();
 
-    // visual seg˙n el estado actual 
+    // visual seg√∫n el estado actual 
     if (estado == EstadoJuego::INICIO)
     {
         // Fondo oscurecido para que resalte el texto
         DrawRectangle(0, 0, ANCHO_PANTALLA, ALTO_PANTALLA, Fade(BLACK, 0.75f));
 
-        // TÌtulo
+        // T√≠tulo
         DrawText("Escapa, VOLTORB!", 280, 150, 50, GOLD);
 
         // Instrucciones
@@ -272,7 +272,7 @@ void Juego::Dibujar()
         DrawText("Podes pulsar el boton del suelo para detener o accionar el molinete", 140, 310, 18, LIGHTGRAY);
         DrawText("y llegar mas facil a la meta.", 140, 340, 18, LIGHTGRAY);
 
-        // IndicaciÛn para empezar
+        // Indicaci√≥n para empezar
         DrawText("Presiona ENTER para empezar", 320, 460, 22, GREEN);
     }
     else if (estado != EstadoJuego::JUGANDO)
@@ -322,19 +322,19 @@ void Juego::DibujarEscena()
         // ASPA 2
         DrawTexturePro(texPlataforma, sourceRec, destRec, origen, ang + 90.0f, SKYBLUE);
 
-        // eje de rotaciÛn
+        // eje de rotaci√≥n
         DrawCircle((int)(pos.x * ESCALA), (int)(pos.y * ESCALA), 7.0f, WHITE);
     }
     // dibujo de la bandera
     if (cuerpoBandera)
     {
-        // Dibujo la la pqueÒa plataforma fija 
-//      // calculo la posiciÛn restando los 20 pÌxeles de desfase
+        // Dibujo la la pque√±a plataforma fija 
+//      // calculo la posici√≥n restando los 20 p√≠xeles de desfase
         float platFijaX = cuerpoBandera->GetPosition().x * ESCALA;
         float platFijaY = (cuerpoBandera->GetPosition().y * ESCALA) + 20.0f;
 
-        float anchoMiniPlat = 80.0f;  // Mitad de tamaÒo 
-        float altoMiniPlat = 12.0f;   // Mitad de tamaÒo 
+        float anchoMiniPlat = 80.0f;  // Mitad de tama√±o 
+        float altoMiniPlat = 12.0f;   // Mitad de tama√±o 
 
         Rectangle srcPlat = { 0.0f, 0.0f, (float)texPlataforma.width, (float)texPlataforma.height };
         Rectangle destPlat = { platFijaX, platFijaY, anchoMiniPlat, altoMiniPlat };
@@ -362,7 +362,7 @@ void Juego::DibujarEscena()
     if (cuerpoBoton)
     {
         b2Vec2 pos = cuerpoBoton->GetPosition();
-        // Si est· activo es verde, si detuvo el molinete se pone rojo
+        // Si est√° activo es verde, si detuvo el molinete se pone rojo
         Color colorBoton = molineteActivo ? GREEN : RED;
 
         DrawRectanglePro(
